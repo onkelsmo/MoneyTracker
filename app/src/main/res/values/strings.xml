@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">MoneyTracker</string>
+
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+
+    <string name="action_settings">Settings</string>
+    <string name="overall">Overall:</string>
+    <string name="remaining">Remaining:</string>
+    <string name="expenditure">Expenditure:</string>
+</resources>
