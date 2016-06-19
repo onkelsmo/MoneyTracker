@@ -1,6 +1,8 @@
 package com.onkelsmo.moneytracker;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -75,32 +77,39 @@ public class MainActivity extends AppCompatActivity
                         float remaining = Float.valueOf(tvRemainingValue.getText().toString());
                         float input = Float.valueOf(moneyInput);
                         float newValue = remaining - input;
-                        if (newValue < remaining) {
+                        if (newValue < 0) {
                             // TODO: 18.06.2016 error message not enough money
                             return;
                         }
+                        // TODO: 19.06.2016 save value back to key value store
+                        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putFloat(getString(R.string.saved_remaining_money), newValue);
+                        editor.apply();
+
                         tvRemainingValue = (TextView)findViewById(R.id.tvRemainingValue);
                         tvRemainingValue.setText(String.format("%s",newValue));
                     }
+                    // TODO: 19.06.2016 reset button!!!
                 })
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-
-                    }
+                    public void onClick(DialogInterface dialogInterface, int i) {}
                 })
                 .show();
     }
 
     private void initializeContent() {
-        // set values to saved or default value
-        // @TODO: fetch saved values from storage
+        float defaultMoneyValue = 1000;
+        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        float savedRemainingMoney = sharedPref.getFloat(getString(R.string.saved_remaining_money), defaultMoneyValue);
         tvOverallValue = (TextView)findViewById(R.id.tvOverallValue);
-        tvOverallValue.setText("1000");
+        // TODO: 19.06.2016 this should be user defined
+        tvOverallValue.setText(String.format("%s",defaultMoneyValue));
         tvRemainingValue = (TextView)findViewById(R.id.tvRemainingValue);
-        tvRemainingValue.setText("1000");
+        tvRemainingValue.setText(String.format("%s",savedRemainingMoney));
         tvExpenditureValue = (TextView)findViewById(R.id.tvExpenditureValue);
-        tvExpenditureValue.setText("0000");
+        tvExpenditureValue.setText(String.format("%s",0.0));
     }
 
     @Override

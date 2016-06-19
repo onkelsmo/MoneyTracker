@@ -8,4 +8,5 @@
     <string name="overall">Overall:</string>
     <string name="remaining">Remaining:</string>
     <string name="expenditure">Expenditure:</string>
+    <string name="saved_remaining_money">SAVED_REMAINING_MONEY_KEY</string>
 </resources>
