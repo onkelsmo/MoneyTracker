@@ -11,4 +11,7 @@
     <string name="saved_remaining_money">SAVED_REMAINING_MONEY_KEY</string>
     <string name="action_reset">Reset</string>
     <string name="saved_limit_value">SavedLimitValue</string>
+    <string name="emptyValue">Empty Value</string>
+    <string name="notEnoughMoney">Not enough Money</string>
+    <string name="limitReseted">Limit reseted</string>
 </resources>

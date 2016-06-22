@@ -15,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -68,14 +69,14 @@ public class MainActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialogInterface, int i) {
                         moneyInput = editTextMoneyInput.getText().toString();
                         if (moneyInput.equals("")) {
-                            // TODO: 18.06.2016 error message empty value
+                            displayFeedbackMessage(R.string.emptyValue);
                             return;
                         }
                         float remaining = Float.valueOf(tvRemainingValue.getText().toString());
                         float input = Float.valueOf(moneyInput);
                         float newValue = remaining - input;
                         if (newValue < 0) {
-                            // TODO: 18.06.2016 error message not enough money
+                            displayFeedbackMessage(R.string.notEnoughMoney);
                             return;
                         }
                         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
@@ -93,6 +94,14 @@ public class MainActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialogInterface, int i) {}
                 })
                 .show();
+    }
+
+    private void displayFeedbackMessage(int emptyValue) {
+        Context context = getApplicationContext();
+        CharSequence text = getString(emptyValue);
+        int duration = Toast.LENGTH_SHORT;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 
     private void initializeContent() {
@@ -140,7 +149,6 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_reset) {
-            // TODO: 22.06.2016 show dialogue reset or no
             showResetBox();
             return true;
         }
@@ -165,6 +173,7 @@ public class MainActivity extends AppCompatActivity
                         editor.apply();
                         tvRemainingValue = (TextView)findViewById(R.id.tvRemainingValue);
                         tvRemainingValue.setText(String.format("%s",savedLimit));
+                        displayFeedbackMessage(R.string.limitReseted);
                     }
                 })
                 .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
