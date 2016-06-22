@@ -6,9 +6,6 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,9 +19,9 @@ import android.widget.TextView;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
     private String moneyInput;
-    private TextView tvOverallValue;
+    private TextView tvLimitValue;
     private TextView tvRemainingValue;
-    private TextView tvExpenditureValue;
+    private float defaultMoneyValue = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,14 +43,14 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.setDrawerListener(toggle);
-        toggle.syncState();
+        // DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        //ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+        //        this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+        //drawer.setDrawerListener(toggle);
+        //toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        //NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        //navigationView.setNavigationItemSelectedListener(this);
 
         initializeContent();
     }
@@ -81,7 +78,6 @@ public class MainActivity extends AppCompatActivity
                             // TODO: 18.06.2016 error message not enough money
                             return;
                         }
-                        // TODO: 19.06.2016 save value back to key value store
                         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putFloat(getString(R.string.saved_remaining_money), newValue);
@@ -100,26 +96,32 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initializeContent() {
-        float defaultMoneyValue = 1000;
+
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putFloat(getString(R.string.saved_limit_value), defaultMoneyValue);
+        editor.apply();
+
+        sharedPref = getPreferences(Context.MODE_PRIVATE);
         float savedRemainingMoney = sharedPref.getFloat(getString(R.string.saved_remaining_money), defaultMoneyValue);
-        tvOverallValue = (TextView)findViewById(R.id.tvOverallValue);
-        // TODO: 19.06.2016 this should be user defined
-        tvOverallValue.setText(String.format("%s",defaultMoneyValue));
+
+        tvLimitValue = (TextView)findViewById(R.id.tvLimitValue);
+        tvLimitValue.setText(String.format("%s",defaultMoneyValue));
         tvRemainingValue = (TextView)findViewById(R.id.tvRemainingValue);
         tvRemainingValue.setText(String.format("%s",savedRemainingMoney));
-        tvExpenditureValue = (TextView)findViewById(R.id.tvExpenditureValue);
-        tvExpenditureValue.setText(String.format("%s",0.0));
     }
 
     @Override
     public void onBackPressed() {
+        /*
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
             super.onBackPressed();
         }
+        */
+        super.onBackPressed();
     }
 
     @Override
@@ -137,17 +139,47 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.action_reset) {
+            // TODO: 22.06.2016 show dialogue reset or no
+            showResetBox();
             return true;
         }
 
         return super.onOptionsItemSelected(item);
     }
 
+    private void showResetBox() {
+        new AlertDialog.Builder(this)
+                .setTitle("Reset Limit")
+                .setPositiveButton("reset", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
+                        float savedLimit = sharedPref.getFloat(getString(R.string.saved_limit_value), defaultMoneyValue);
+                        tvLimitValue = (TextView)findViewById(R.id.tvLimitValue);
+                        tvLimitValue.setText(String.format("%s",savedLimit));
+
+                        sharedPref = getPreferences(Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPref.edit();
+                        editor.putFloat(getString(R.string.saved_remaining_money), savedLimit);
+                        editor.apply();
+                        tvRemainingValue = (TextView)findViewById(R.id.tvRemainingValue);
+                        tvRemainingValue.setText(String.format("%s",savedLimit));
+                    }
+                })
+                .setNegativeButton("cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {}
+                })
+                .show();
+    }
+
+
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
+        /*
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
@@ -166,6 +198,7 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
+        */
         return true;
     }
 }

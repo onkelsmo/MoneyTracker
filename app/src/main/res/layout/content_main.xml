@@ -16,17 +16,17 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/overall"
-        android:id="@+id/tvOverall"
+        android:text="@string/limit"
+        android:id="@+id/tvLimit"
         android:textSize="30sp"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="000000"
-        android:id="@+id/tvOverallValue"
+        android:id="@+id/tvLimitValue"
         android:textSize="30sp"
-        android:layout_below="@+id/tvOverall"
+        android:layout_below="@+id/tvLimit"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
@@ -37,7 +37,7 @@
         android:id="@+id/tvRemaining"
         android:textSize="30sp"
         android:layout_marginTop="68dp"
-        android:layout_below="@+id/tvOverall"
+        android:layout_below="@+id/tvLimit"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
@@ -51,23 +51,4 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/expenditure"
-        android:id="@+id/tvExpenditure"
-        android:textSize="30sp"
-        android:layout_centerVertical="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="000000"
-        android:id="@+id/tvExpenditureValue"
-        android:textSize="30sp"
-        android:layout_below="@+id/tvExpenditure"
-        android:layout_alignRight="@+id/tvRemainingValue"
-        android:layout_alignEnd="@+id/tvRemainingValue"/>
 </RelativeLayout>

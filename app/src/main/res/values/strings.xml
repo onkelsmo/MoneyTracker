@@ -5,8 +5,10 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="overall">Overall:</string>
+    <string name="limit">Limit:</string>
     <string name="remaining">Remaining:</string>
     <string name="expenditure">Expenditure:</string>
     <string name="saved_remaining_money">SAVED_REMAINING_MONEY_KEY</string>
+    <string name="action_reset">Reset</string>
+    <string name="saved_limit_value">SavedLimitValue</string>
 </resources>
