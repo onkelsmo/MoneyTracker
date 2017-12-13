@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity
     private String moneyInput;
     private TextView tvLimitValue;
     private TextView tvRemainingValue;
-    private float defaultMoneyValue = 4000;
+    private float defaultMoneyValue = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,11 +60,14 @@ public class MainActivity extends AppCompatActivity
                         }
                         float remaining = Float.valueOf(tvRemainingValue.getText().toString());
                         float input = Float.valueOf(moneyInput);
-                        float newValue = remaining - input;
+                        float newValue = remaining + input;
                         if (newValue < 0) {
                             displayFeedbackMessage(R.string.notEnoughMoney);
                             return;
                         }
+
+
+
                         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPref.edit();
                         editor.putFloat(getString(R.string.saved_remaining_money), newValue);
@@ -91,7 +94,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initializeContent() {
-
         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putFloat(getString(R.string.saved_limit_value), defaultMoneyValue);
@@ -100,8 +102,8 @@ public class MainActivity extends AppCompatActivity
         sharedPref = getPreferences(Context.MODE_PRIVATE);
         float savedRemainingMoney = sharedPref.getFloat(getString(R.string.saved_remaining_money), defaultMoneyValue);
 
-        tvLimitValue = (TextView)findViewById(R.id.tvLimitValue);
-        tvLimitValue.setText(String.format("%s",defaultMoneyValue));
+        // tvLimitValue = (TextView)findViewById(R.id.tvLimitValue);
+        // tvLimitValue.setText(String.format("%s",defaultMoneyValue));
         tvRemainingValue = (TextView)findViewById(R.id.tvRemainingValue);
         tvRemainingValue.setText(String.format("%s",savedRemainingMoney));
     }
@@ -142,8 +144,8 @@ public class MainActivity extends AppCompatActivity
                     public void onClick(DialogInterface dialogInterface, int i) {
                         SharedPreferences sharedPref = getPreferences(Context.MODE_PRIVATE);
                         float savedLimit = sharedPref.getFloat(getString(R.string.saved_limit_value), defaultMoneyValue);
-                        tvLimitValue = (TextView)findViewById(R.id.tvLimitValue);
-                        tvLimitValue.setText(String.format("%s",savedLimit));
+                        // tvLimitValue = (TextView)findViewById(R.id.tvLimitValue);
+                        // tvLimitValue.setText(String.format("%s",savedLimit));
 
                         sharedPref = getPreferences(Context.MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPref.edit();
